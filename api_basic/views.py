@@ -17,11 +17,12 @@ from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
+# Modal ViewSets
 class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
 
-
+# Generic ViewSets
 # class ArticleViewSet(viewsets.GenericViewSet, mixins.ListModelMixin,
 #                                               mixins.CreateModelMixin,
 #                                               mixins.CreateModelMixin,
@@ -30,7 +31,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 #     serializer_class = ArticleSerializer
 #     queryset = Article.objects.all()
 
-#
+# ViewSets & Routers
 # class ArticleViewSet(viewsets.ViewSet):
 #     def list(self, request):
 #         articles = Article.objects.all()
@@ -57,7 +58,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 #             serializer.save()
 #             return Response(serializer.data)
 
-
+# Generic Views & Mixins
 class GenericAPIView(generics.GenericAPIView,
                      mixins.ListModelMixin,
                      mixins.CreateModelMixin,
@@ -87,7 +88,7 @@ class GenericAPIView(generics.GenericAPIView,
     def delete(self, request, id):
         return self.destroy(request, id)
 
-
+# Class Basec API views
 class ArticleAPIView(APIView):
     def get(self, request):
         articles = Article.objects.all()
@@ -100,7 +101,7 @@ class ArticleAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+# Class Basec API views
 class ArticleDetail(APIView):
     def get_object(self, id):
         try:
@@ -125,7 +126,7 @@ class ArticleDetail(APIView):
         article.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+# Function Based API views
 @api_view(['GET', 'POST'])
 def article_list(request):
     if request.method == 'GET':
@@ -138,7 +139,7 @@ def article_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+# Function Based API views
 @api_view(['GET', 'PUT', 'DELETE'])
 def article_detail(request, pk):
     try:
